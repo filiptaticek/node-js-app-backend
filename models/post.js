@@ -5,7 +5,8 @@ mongoose.connect(process.env.MONGODB_URI)
 
 const postSchema = new mongoose.Schema({
     content: String,
-    likes: String,
+    likes: Number,
+    date: Date,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

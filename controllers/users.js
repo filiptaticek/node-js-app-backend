@@ -4,10 +4,10 @@ const User = require('../models/user') //importing User mongo object
 
 //ANOTATION: this controller is used for pushing users data to the server and getting them from it
 
-usersRouter.get('/', (request, response) => { //controller for getting all the users from the server
-    User.find({}).then(notes => {
-      response.json(notes)
-    })
+usersRouter.get('/', async (request, response) => { //controller for getting all the users from the server
+    const users = await User
+    .find({}).populate('posts', {content:1, likes: 1, date: 1})
+    response.json(users)
   })
 
 usersRouter.post('/', async (request, response) => { //controller for sending new people to the database

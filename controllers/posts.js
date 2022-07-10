@@ -13,14 +13,16 @@ const getTokenFrom = request => {
   return null
 }
 
-postRouter.get('/', (request, response) => { //controller for getting the notes from the server
-  Post.find({}).then(notes => {
+postRouter.get('/', async(request, response) => { //controller for getting the notes from the server
+    const notes = await Post
+      .find({}).populate('user', { username: 1})
+  
     response.json(notes)
-  })
 })
 
 postRouter.post('/', async(request, response) => { //controller for sending new posts
-  const { content, likes } = request.body
+  const { content, date } = request.body
+  const likes = 0
 
   const token = getTokenFrom(request)
   const decodedToken = jwt.verify(token, process.env.SECRET)
@@ -36,7 +38,8 @@ postRouter.post('/', async(request, response) => { //controller for sending new 
   const post = new Post({
     content,
     likes,
-    user
+    date,
+    user,
   })
   
   const savedPost = await post.save()

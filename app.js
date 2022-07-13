@@ -12,7 +12,7 @@ mongoose.connect(config.MONGODB_URI) //connecting to database
 app.use(cors()) //taking in use privacy things
 app.use(express.json()) //taking in use express json 
 
-app.use('/api/posts', postRouter)
+app.use('/api/posts/', postRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter) 
 

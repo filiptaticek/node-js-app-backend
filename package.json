@@ -21,5 +21,10 @@
   "devDependencies": {
     "json-server": "^0.17.0",
     "nodemon": "^2.0.18"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

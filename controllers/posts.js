@@ -21,8 +21,7 @@ postRouter.get('/', async(request, response) => { //controller for getting the n
 })
 
 postRouter.post('/', async(request, response) => { //controller for sending new posts
-  const { content, date } = request.body
-  const likes = 0
+  const { content, date, likedby } = request.body
 
   const token = getTokenFrom(request)
   const decodedToken = jwt.verify(token, process.env.SECRET)
@@ -37,9 +36,9 @@ postRouter.post('/', async(request, response) => { //controller for sending new 
   
   const post = new Post({
     content,
-    likes,
     date,
     user,
+    likedby
   })
   
   const savedPost = await post.save()
@@ -47,6 +46,32 @@ postRouter.post('/', async(request, response) => { //controller for sending new 
   await user.save()
 
   response.status(201).json(savedPost)
+})
+
+postRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
+  const post = await Post.findByIdAndRemove(id)
+    response.status(201).json(post)
+})
+
+//--------//--------//--------//--------//--------//--------
+
+postRouter.put('/:id', (request, response) => {
+  const body = request.body
+  const post = {
+    content: body.content,
+    likedby: body.likedby,
+    date: body.date,
+    user: body.user,
+    id: body.id
+  }
+
+  Post.findByIdAndUpdate(request.params.id, post, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+      console.log("the posts liked property was updated")
+    })
+    .catch(error => console.log(error))
 })
   
 module.exports = postRouter

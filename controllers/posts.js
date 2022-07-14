@@ -13,12 +13,16 @@ const getTokenFrom = request => {
   return null
 }
 
+//-------------------------------
+
 postRouter.get('/', async(request, response) => { //controller for getting the notes from the server
     const notes = await Post
-      .find({}).populate('user', { username: 1})
+      .find({})//.populate('user', { username: 1})
   
     response.json(notes)
 })
+
+//-------------------------------
 
 postRouter.post('/', async(request, response) => { //controller for sending new posts
   const { content, date, likedby } = request.body
@@ -48,13 +52,15 @@ postRouter.post('/', async(request, response) => { //controller for sending new 
   response.status(201).json(savedPost)
 })
 
+//-------------------------------
+
 postRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
   const post = await Post.findByIdAndRemove(id)
     response.status(201).json(post)
 })
 
-//--------//--------//--------//--------//--------//--------
+//-------------------------------
 
 postRouter.put('/:id', (request, response) => {
   const body = request.body

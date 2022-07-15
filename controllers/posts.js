@@ -17,7 +17,7 @@ const getTokenFrom = request => {
 
 postRouter.get('/', async(request, response) => { //controller for getting the notes from the server
     const notes = await Post
-      .find({})//.populate('user', { username: 1})
+      .find({}).populate('user', { username: 1})
   
     response.json(notes)
 })
@@ -65,11 +65,11 @@ postRouter.delete('/:id', async (request, response) => {
 postRouter.put('/:id', (request, response) => {
   const body = request.body
   const post = {
-    content: body.content,
+    //content: body.content,
     likedby: body.likedby,
-    date: body.date,
-    user: body.user,
-    id: body.id
+    //date: body.date,
+    //user: body.user,
+    //id: body.id
   }
 
   Post.findByIdAndUpdate(request.params.id, post, { new: true })

@@ -10,6 +10,7 @@ const mongoose = require('mongoose') //importing mongoose for communicating with
 mongoose.connect(config.MONGODB_URI) //connecting to database
 
 app.use(cors()) //taking in use privacy things
+app.use(express.static('build')) //if this is in the code, the main page of the app would be the build directory
 app.use(express.json()) //taking in use express json 
 
 app.use('/api/posts/', postRouter)

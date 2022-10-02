@@ -25,7 +25,7 @@ postRouter.get('/', async(request, response) => { //controller for getting the n
 //-------------------------------
 
 postRouter.post('/', async(request, response) => { //controller for sending new posts
-  const { content, date, likedby } = request.body
+  const { content, date, likedby,image } = request.body
 
   const token = getTokenFrom(request)
   const decodedToken = jwt.verify(token, process.env.SECRET)
@@ -40,6 +40,7 @@ postRouter.post('/', async(request, response) => { //controller for sending new 
   
   const post = new Post({
     content,
+    image,
     date,
     user,
     likedby
@@ -75,7 +76,6 @@ postRouter.put('/:id', (request, response) => {
   Post.findByIdAndUpdate(request.params.id, post, { new: true })
     .then(updatedNote => {
       response.json(updatedNote)
-      console.log("the posts liked property was updated")
     })
     .catch(error => console.log(error))
 })
